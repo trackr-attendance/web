@@ -1,4 +1,44 @@
 <h1>Onboarding App: Class</h1>
 
 <p> Tell us more about your class.</p>
+
+<form name="login" action="./" method="post"> 
+
+     <div id="course-number">     
+		<label for="course-number-field">Number</label>
+		<input id="course-number-field" type="text" name="course-number" title="Course Number" value=""/>
+	</div>
+
+     <div id="course-name">     
+		<label for="course-name-field">Name</label>
+		<input id="course-name-field" type="text" name="course-name" title="Course Name" value=""/>
+	</div>
+	
+	<div id="course-startDate">     
+		<label for="course-startDate-field">Start Date</label>
+		<input id="course-startDate-field" type="date" name="course-startDate" title="Course Start Date" value=""/>
+	</div>
+
+	<div id="course-endDate">     
+		<label for="course-endDate-field">End Date</label>
+		<input id="course-endDate-field" type="date" name="course-endDate" title="Course End Date" value=""/>
+	</div>
+
+	<div id="course-daysOfWeek">
+		<label>Days Of Week</label>
+		<label><input type="checkbox" name="course-daysOfWeek[]" value="0">Sunday</label>
+		<label><input type="checkbox" name="course-daysOfWeek[]" value="1">Monday</label>
+		<label><input type="checkbox" name="course-daysOfWeek[]" value="2">Tuesday</label>
+		<label><input type="checkbox" name="course-daysOfWeek[]" value="3">Wednesday</label>
+		<label><input type="checkbox" name="course-daysOfWeek[]" value="4">Thursday</label>
+		<label><input type="checkbox" name="course-daysOfWeek[]" value="5">Friday</label>
+		<label><input type="checkbox" name="course-daysOfWeek[]" value="6">Saturday</label>
+	</div>
+
+	<div id="submit">
+		<input type="submit" name="submit" value="Submit"/>
+	</div>
+
+</form>
+
 <p><a href="../roster/">next.</a></p>
