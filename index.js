@@ -21,7 +21,7 @@ app.get('/', routes.notImplementedResponse);
 
 /* On Boarding Workflow */
 app.get('/onboarding/welcome/', routes.onboarding.welcome);
-app.get('/onboarding/class/', routes.onboarding.class);
+app.route('/onboarding/class/').get(routes.onboarding.class.get).post(routes.onboarding.class.post);
 app.get('/onboarding/roster/', routes.onboarding.roster);
 app.get('/onboarding/faces/', routes.onboarding.faces);
 app.get('/onboarding/finished/', routes.onboarding.finished);
