@@ -1,4 +1,41 @@
-<h1>Onboarding App: Roster</h1>
+<h1>Let's Add Your Student Roster</h1>
 
-<p> Who are your students?</p>
-<p><a href="../faces/">next.</a></p>
+<p>In order to start tracking your students attendance we need some information about who's enrolled in the class.</p>
+
+<form action="./" method="post">
+	<div class="form-group row justify-content-end">
+		<div class="col-auto">
+			<button type="button" class="btn btn-outline-secondary btn-sm remove">Remove</button>
+			<button type="button" class="btn btn-secondary btn-sm add">Add</button>
+		</div>
+	</div>
+	<div class="dynamic-rows"></div>
+  	<div class="form-group row justify-content-between">
+		<div class="col-auto">
+			<a href="../welcome/" class="btn btn-outline-secondary btn-lg">Previous</a>
+		</div>
+		<div class="col-auto">
+			<button type="submit" class="btn btn-primary btn-lg">Next</button>
+		</div>
+	</div>
+</form>
+
+<script type="text/template" id="form_rows_tpl">
+	<div class="form-group row align-items-center">
+		<div class="col-1">
+			<input type="text" readonly class="form-control-plaintext" id="staticCount\{{count}}" value="\{{count}})" name="students[\{{count}}][id]">
+		</div>
+		<div class="col">
+			<input type="text" class="form-control" name="students[\{{count}}][first]" placeholder="First name">
+		</div>
+		<div class="col">
+			<input type="text" class="form-control" name="students[\{{count}}][last]" placeholder="Last name">
+		</div>
+		<div class="col">
+			<div class="input-group">
+				<input type="text" class="form-control" name="students[\{{count}}][username]" placeholder="MIT Kerberos account" aria-label="Recipient's username">
+				<span class="input-group-addon" id="basic-addon2">@mit.edu</span>
+			</div>
+		</div>
+	</div>
+</script>

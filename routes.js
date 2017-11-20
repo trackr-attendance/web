@@ -1,10 +1,11 @@
+var validate = require("./datavalidation");
+
 var admin = require("firebase-admin");
 admin.initializeApp({
   credential: admin.credential.cert(require("./trackr-attendance-d70b149c2ccc.json")),
   databaseURL: "https://trackr-attendance.firebaseio.com"
 });
 
-// ... or use the equivalent shorthand notation
 auth = admin.auth();
 db = admin.database();
 
@@ -122,24 +123,45 @@ exports.onboarding.class.post = function(req, res){
 	if (error_res.length == 0){
 		// Upload to Database
 		var dbPost = {};
-		dbPost[databaseStructure.number.replace('.','')] = {2017: databaseStructure};
+		var courseNumber = databaseStructure.number.replace('.','');
+		dbPost[courseNumber] = {2017: databaseStructure};
 		db.ref("courses/MIT").set(dbPost);
 
-	    res.redirect('../roster/');
+	    res.redirect('../' + courseNumber + '/roster/');
 	}else{
 		console.log(error_res);
 	    res.render('onboarding/class');
 	}
 };
 
-exports.onboarding.roster = function(req, res){
+exports.onboarding.roster = {}
+exports.onboarding.roster.get = function(req, res){
     console.log('[INFO] Recieved GET request at ', req.url);
     res.render('onboarding/roster');
 };
 
+exports.onboarding.roster.post = function(req, res){
+    console.log('[INFO] Recieved POST request at ', req.url);
+
+    var bodyClean = validate.roster(req.body);
+
+    if (bodyClean.errors.length == 0){
+    	var course = req.params.class.replace('.','');
+		db.ref("courses/MIT/"+course+"/2017/").update({roster: {students:bodyClean.data, total: bodyClean.data.length}});
+
+	    res.redirect('../faces/');
+    }else{
+	    res.render('onboarding/roster');
+    }
+};
+
 exports.onboarding.faces = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
-    res.render('onboarding/faces');
+	console.log('[INFO] Recieved GET request at ', req.url);
+	var courseNumber = req.params.class.replace('.','');
+
+	db.ref("courses/MIT/"+courseNumber+"/2017/roster/students").once('value').then(function(snapshot) {
+	    res.render('onboarding/faces', {students: snapshot.val()});
+	});
 };
 
 exports.onboarding.finished = function(req, res){
