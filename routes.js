@@ -132,9 +132,9 @@ exports.onboarding.class.post = function(req, res){
 		var dbPost = {};
 		var courseNumber = databaseStructure.number.replace('.','');
 		dbPost[courseNumber] = {2017: databaseStructure};
-		db.ref("courses/MIT").set(dbPost);
+		db.ref("courses/MIT").update(dbPost);
 
-	    res.redirect('../' + courseNumber + '/roster/');
+	    res.redirect('../' + databaseStructure.number + '/roster/');
 	}else{
 		console.log(error_res);
 	    res.render('onboarding/class');

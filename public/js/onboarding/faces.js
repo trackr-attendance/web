@@ -52,7 +52,8 @@ app._dropzoneCompleteCallback = function(file) {
   inputHidden += window.btoa(JSON.stringify(json)) + '" />';
   $('form#createPost').append(inputHidden);
 
-  var firebaseRef = $(file.previewElement).parent('form').children('.dz-upload-structure').text();
+  var firebaseRef = $(file.previewElement).parent('form').find('.dz-upload-structure').text();
+  console.log(firebaseRef);
 
   firebase.database().ref(firebaseRef).update({photo: json.url});
 
