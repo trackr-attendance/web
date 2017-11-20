@@ -1,1 +1,98 @@
-<h1>Example App: Home</h1>
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Example App</title>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+		<link rel="stylesheet" href="/static/css/home.css">
+	</head>
+	<body>
+
+	<header class="fixed-top">
+		<div class="collapse bg-light" id="navbarHeader">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 py-4">
+						<h4 class="text-secondary">About</h4>
+						<p class="text-muted">This is a fictional application designed for MIT's <a class="text-dark" href="://compuxo.org/">1.125 Architecting &amp; Engineering Software Systems</a> by <a class="text-dark" href="://github.com/aramael">Aramael Pena-Alcantara</a> and <a class="text-dark" href="://github.com/aptmoniker">Andrew Foster</a>. This application is designed to collect attendance and engagement information at MIT courses through facial recognition. This application is only accessible <a class="text-muted" href="://kb.mit.edu/confluence/pages/viewpage.action?pageId=46301207">within MIT</a>.</p>
+					</div>
+					<div class="col-sm-4 py-4">
+						<h4 class="">Contact</h4>
+						<ul class="list-unstyled">
+							<li><a href="mailto:aramael@.trackrattendance.com" class="text-secondary">Aramael Pena-Alcantara</a></li>
+							<li><a href="mailto:andrew@.trackrattendance.com" class="text-secondary">Andrew Foster</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="navbar navbar-light bg-light">
+			<div class="container d-flex justify-content-between">
+				<a href="#" class="navbar-brand">What Is This?</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</div>
+	</header>
+
+		<div class="site-wrapper">
+
+		  <div class="site-wrapper-inner">
+
+			<div class="cover-container">
+
+			  <main role="main" class="inner cover">
+			  	<div id="trackr-logo">
+					<svg id="eb2b76d6-7c99-4ada-99e3-e39f79d51aa0" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.97 331.58" width="200">
+						<g>
+							<g>
+								<path d="M6.77,296.85H6.19c-4,0-6.19-2.22-6.19-6.29v-3c0-4.16,2.22-6.29,6.19-6.29H7.45v-8.22c0-4.16,2.13-6.29,6.29-6.29H20.6c4.16,0,6.39,2.13,6.39,6.29v8.22h3.48c4.16,0,6.38,2.13,6.38,6.29v3c0,4.07-2.22,6.29-6.19,6.29H27v12c0,2.61,1.45,4.15,4.16,4.54,4.54.68,6.19,1.45,6.19,5.8v5.42c0,4.74-2.91,6.29-8.23,6.29-6.28,0-22.34-2.32-22.34-18.28Z" style="fill: #fff"/>
+								<path d="M42.85,286.5c0-4.16,2.22-6.29,6.28-6.29h6.68c4.16,0,6.38,2.13,6.38,6.29v1.94a22.77,22.77,0,0,1-.19,2.8h.19c1.45-4.45,6.68-11.61,12.48-11.61,4,0,5.22,2.23,5.22,6.39v6.58c0,4.15-2.13,6.38-6.19,6.38-7.16,0-10.64,5.13-10.64,12.48v12.67c0,4.06-2.22,6.28-6.38,6.28H49.13c-4.06,0-6.28-2.22-6.28-6.28Z" style="fill: #fff"/>
+								<path d="M107.55,300h1V298.3c0-2.42-2.8-3.09-5.42-3.09a23,23,0,0,0-8,1.83c-3.87,1.65-6.68.87-8.52-2.9l-1.35-2.9c-1.64-3.58-1-6.77,2.61-8.41A41.59,41.59,0,0,1,105,279.05c14.41,0,23.6,8,23.6,20.9v24.18c0,4.06-2.13,6.28-6.29,6.28h-5.7c-4,0-6-2.32-6.29-6.67h-.19c-2.71,4.16-6.68,7.84-14.13,7.84-10.06,0-16.15-7.16-16.15-15.48C79.89,304.3,94.21,300,107.55,300Zm-5.41,17.7a6.46,6.46,0,0,0,6.57-6.58v-1h-1.06c-5.51,0-9.48,1.55-9.48,4.26C98.17,315.81,99.24,317.65,102.14,317.65Z" style="fill: #fff"/>
+								<path d="M161.72,279.05c7.25,0,12.57,1.94,16,4.07s3.48,5.32,1.45,8.6l-1.94,3c-2.22,3.48-4.74,3.68-8.51,1.94a14.2,14.2,0,0,0-5.61-1c-7.06,0-9.48,5.32-9.48,9.29s2.61,10,10.16,10a18.13,18.13,0,0,0,7.45-2c3.86-2,6.67-1.55,8.6,2.22l1.45,2.9c1.75,3.49,1.36,6.68-1.74,8.71a34,34,0,0,1-17.79,4.84c-19,0-28.54-13.06-28.54-26.31C133.18,292.4,142.56,279.05,161.72,279.05Z" style="fill: #fff"/>
+								<path d="M187.64,284.75c0-3,2.22-4.54,6.38-4.54h7.74c4.16,0,6.28,1.54,6.28,4.54v14h5.42L224,283.5c1.75-2.31,4.07-3.29,7.55-3.29h7.93c5,0,6.87,2.31,4.55,5.45L230.1,304.3v.14l15,20.46c2.42,3.21.58,5.51-4.45,5.51h-9.09c-3.48,0-5.8-1-7.55-3.28l-10.54-15.85H208v14.6c0,2.93-2.12,4.53-6.28,4.53H194c-4.16,0-6.38-1.6-6.38-4.53Z" style="fill: #fff"/>
+								<path d="M249.92,286.5c0-4.16,2.23-6.29,6.29-6.29h6.67c4.16,0,6.39,2.13,6.39,6.29v1.94a21.66,21.66,0,0,1-.2,2.8h.2c1.45-4.45,6.67-11.61,12.47-11.61,4,0,5.23,2.23,5.23,6.39v6.58c0,4.15-2.13,6.38-6.19,6.38-7.16,0-10.64,5.13-10.64,12.48v12.67c0,4.06-2.23,6.28-6.39,6.28h-7.54c-4.06,0-6.29-2.22-6.29-6.28Z" style="fill: #fff"/>
+							</g>
+							<g>
+								<circle cx="159.05" cy="57.34" r="57.34" style="fill: #fff"/>
+								<path d="M284.25,232.08c-11.53-52.93-91.61-69.22-140.81-78.72S73.89,104.5,69.14,88.9s-12.9-73.82-12.9-73.82A15.08,15.08,0,0,0,41.16,0H15A15.06,15.06,0,0,0,.1,12.89L0,27.16A152.28,152.28,0,0,0,2.19,51.37l15.13,79.81a60.38,60.38,0,0,0,9.78,21.65l42,54c4.13,5.3,7.5,15.14,7.5,21.86v23.75H287v-7.71C286.22,241.19,285.33,237,284.25,232.08Z" style="fill: #fff"/>
+							</g>
+						</g>
+					</svg>
+
+			  	</div>
+
+				<p class="lead">Trackr Attendance helps you keep track of students and their engagement in your class.</p>
+				<p class="lead">
+				  <a href="/onboarding/welcome/" class="btn btn-lg btn-secondary">Let's Get Started</a>
+				</p>
+			  </main>
+
+			  <footer class="mastfoot">
+				<div class="inner">
+				  <p>&copy; 2017 Trackr Attendance, Inc.</p>
+				</div>
+			  </footer>
+
+			</div>
+
+		  </div>
+
+		</div>
+		
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	</body>
+</html>

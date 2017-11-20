@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true})); // to support URL-encoded bod
 app.use('/static', express.static('public'));
 
 /* Routing */
-app.get('/', routes.notImplementedResponse);
+app.get('/', routes.home);
 app.post('/admin/S3/sign/', frontendUpload.signS3);
 
 /* On Boarding Workflow */
