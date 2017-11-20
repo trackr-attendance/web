@@ -23,7 +23,9 @@ exports.onboarding = {};
 
 exports.onboarding.welcome = function(req, res){
     console.log('[INFO] Recieved GET request at ', req.url);
-    res.render('onboarding/welcome');
+    res.redirect('../class/');
+    // TODO: Implement Marketing Copy On This Page
+    // res.render('onboarding/welcome');
 };
 
 exports.onboarding.class = {};
@@ -170,6 +172,9 @@ exports.onboarding.faces = function(req, res){
 };
 
 exports.onboarding.finished = function(req, res){
-    console.log('[INFO] Recieved request at ', req.url);
-    res.render('onboarding/finished');
+    console.log('[INFO] Recieved GET request at ', req.url);
+
+    res.redirect('/');
+    // TODO: Implement Marketing Copy On This Page
+    // res.render('onboarding/finished');
 };
