@@ -1,0 +1,69 @@
+<h1>Let's Set Up Your Class</h1>
+
+<p>To start taking advantage of <span style="emphasis">Trackr Attendance</span>, tell us more about your class.</p>
+
+<form name="login" action="./" method="post"> 
+
+	<div id="course-number" class="form-group">
+		<label for="course-number-field">Course Number</label>
+		<input id="course-number-field" class="form-control" type="text" name="number" title="Course Number" aria-describedby="course-number-help" placeholder="1.00">
+		<small id="course-number-help" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	</div>
+
+	<div id="course-name" class="form-group">
+		<label for="course-name-field">Course Name</label>
+		<input id="course-name-field" class="form-control" type="text" name="name" title="Course Name" aria-describedby="course-name-help" placeholder="Engineering Computation and Data Science">
+		<small id="course-name-help" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	</div>
+
+	<div class="form-row">
+		<div class="col">
+			<label for="course-startDate-field">Course Start Date</label>
+			<input id="course-startDate-field" class="form-control" type="date" name="startDate" title="Course Start Date" aria-describedby="course-date-help"/>
+		</div>
+		<div class="col">
+			<label for="course-endDate-field">Course End Date</label>
+			<input id="course-endDate-field" class="form-control" type="date" name="endDate" title="Course End Date" aria-describedby="course-date-help"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<small id="course-date-help" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	</div>
+
+	<div id="course-daysOfWeek" class="form-group">
+		<label for="course-daysOfWeek" aria-describedby="course-daysOfWeek-help">Repeats On</label>
+		<div class="btn-group d-flex" role="group" aria-label="Basic example" data-toggle="buttons">
+			<label class="btn btn-outline-secondary w-100">
+				<input type="checkbox" name="daysOfWeek[]" value="0" autocomplete="off"> Sunday
+			</label>
+			<label class="btn btn-outline-secondary w-100">
+				<input type="checkbox" name="daysOfWeek[]" value="1" autocomplete="off"> Monday
+			</label>
+			<label class="btn btn-outline-secondary w-100">
+				<input type="checkbox" name="daysOfWeek[]" value="2" autocomplete="off"> Tuesday
+			</label>
+			<label class="btn btn-outline-secondary w-100">
+				<input type="checkbox" name="daysOfWeek[]" value="3" autocomplete="off"> Wednesday
+			</label>
+			<label class="btn btn-outline-secondary w-100">
+				<input type="checkbox" name="daysOfWeek[]" value="4" autocomplete="off"> Thursday
+			</label>
+			<label class="btn btn-outline-secondary w-100">
+				<input type="checkbox" name="daysOfWeek[]" value="5" autocomplete="off"> Friday
+			</label>
+			<label class="btn btn-outline-secondary w-100">
+				<input type="checkbox" name="daysOfWeek[]" value="6" autocomplete="off"> Saturday
+			</label>
+		</div>
+		<small id="course-daysOfWeek-help" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	</div>
+
+	<div class="form-group row justify-content-between">
+		<div class="col-1">
+			<a href="../welcome/" class="btn btn-outline-secondary btn-lg">Previous</a>
+		</div>
+		<div class="col-1">
+			<button type="submit" class="btn btn-primary btn-lg">Next</button>
+		</div>
+	</div>
+</form>
