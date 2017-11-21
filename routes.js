@@ -1,5 +1,13 @@
+var parse = require('url-parse');
+
 var validate = require("./datavalidation");
 
+// AWS Configuration
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./awsConfig.json');
+
+
+// Firebase Configuration
 var admin = require("firebase-admin");
 admin.initializeApp({
   credential: admin.credential.cert(require("./trackr-attendance-d70b149c2ccc.json")),
@@ -8,6 +16,7 @@ admin.initializeApp({
 
 auth = admin.auth();
 db = admin.database();
+
 
 exports.notImplementedResponse = function(req, res){
     console.log('[INFO] Recieved GET request at ', req.url);
@@ -173,6 +182,44 @@ exports.onboarding.faces = function(req, res){
 
 exports.onboarding.finished = function(req, res){
     console.log('[INFO] Recieved GET request at ', req.url);
+	var courseNumber = req.params.class.replace('.','');
+
+	collection = 'MIT-' + req.params.class + '-2017';
+
+    // Create Amazon AWS Collection
+	var rekognition = new AWS.Rekognition();
+
+    rekognition.createCollection( { "CollectionId": collection }).promise().then(function (data){
+    	console.log(data);
+    }, function (error){
+    	if (error.code != 'ResourceAlreadyExistsException'){
+	    	console.log(error);
+    	}
+    });
+
+    // Train Image Set
+	db.ref("courses/MIT/"+courseNumber+"/2017/roster/students").once('value').then(function(snapshot) {
+		faces = snapshot.val().map(function (face){
+			photo = parse(face.photo, true);
+			return {
+				"CollectionId": collection,
+				"DetectionAttributes": [ "ALL" ],
+				"ExternalImageId": collection + ['', face.id, face.first.replace(/[^a-zA-Z0-9_.]/,''), face.last.replace(/[^a-zA-Z0-9_.]/,'')].join('-'),
+				"Image": { 
+					"S3Object": { 
+						"Bucket": photo.hostname.substring(0, photo.hostname.indexOf(".")),
+						"Name": photo.pathname.replace('\/', '')
+					}
+				}
+			};
+		});
+
+		faces.forEach(function (face){
+			rekognition.indexFaces(face).promise().catch(function (error){
+		    	console.log(error);
+		    });
+		});
+	});
 
     res.redirect('/classes/');
     // TODO: Implement Marketing Copy On This Page
@@ -195,7 +242,6 @@ exports.dashboard.home = function(req, res){
 
 	    res.render('dashboard/home', {classes: body});
 	});
-
 }
 
 exports.dashboard.class = function(req, res){
@@ -205,5 +251,4 @@ exports.dashboard.class = function(req, res){
 	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
 	    res.render('dashboard/class', snapshot.val());
 	});
-
 }
