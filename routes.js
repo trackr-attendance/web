@@ -174,7 +174,7 @@ exports.onboarding.faces = function(req, res){
 exports.onboarding.finished = function(req, res){
     console.log('[INFO] Recieved GET request at ', req.url);
 
-    res.redirect('/');
+    res.redirect('/classes/');
     // TODO: Implement Marketing Copy On This Page
     // res.render('onboarding/finished');
 };
