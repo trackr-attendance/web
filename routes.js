@@ -178,3 +178,22 @@ exports.onboarding.finished = function(req, res){
     // TODO: Implement Marketing Copy On This Page
     // res.render('onboarding/finished');
 };
+
+exports.dashboard = {};
+
+exports.dashboard.home = function(req, res){
+    console.log('[INFO] Recieved GET request at ', req.url);
+
+	db.ref("courses/MIT/").once('value').then(function(snapshot) {
+		var data = snapshot.val();
+		var body = [];
+		for (var key in data) {
+			if (data.hasOwnProperty(key)) {
+				body.push(data[key][2017]);
+			}
+		}
+
+	    res.render('dashboard/home', {classes: body});
+	});
+
+}

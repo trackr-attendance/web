@@ -28,6 +28,13 @@ app.route('/onboarding/:class([\\d\\w]+\.\\d+\\w+)/roster/').get(routes.onboardi
 app.get('/onboarding/:class([\\d\\w]+\.\\d+\\w+)/faces/', routes.onboarding.faces);
 app.get('/onboarding/:class([\\d\\w]+\.\\d+\\w+)/finished/', routes.onboarding.finished);
 
+/* Dashboard Routes */
+app.get('/classes/', routes.dashboard.home);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/', routes.notImplementedResponse);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/edit/', routes.notImplementedResponse);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/roster/', routes.notImplementedResponse);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/class/:date(\\d{4}-\\d{2}-\\d{2})/', routes.notImplementedResponse);
+
 var port = 8080;
 app.listen(port, function(){
     console.log('[INFO] Listening at: http://127.0.0.1:8080');
