@@ -19,37 +19,37 @@ db = admin.database();
 
 
 exports.notImplementedResponse = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
-    res.status(501).send({"status code": 501, "status string": "501 Not Implemented", "message": req.url + " is not implemented."});
+	console.log('[INFO] Recieved GET request at ', req.url);
+	res.status(501).send({"status code": 501, "status string": "501 Not Implemented", "message": req.url + " is not implemented."});
 };
 
 exports.home = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
-    res.render('home', {layout: false});
+	console.log('[INFO] Recieved GET request at ', req.url);
+	res.render('home', {layout: false});
 }
 
 exports.onboarding = {};
 
 exports.onboarding.welcome = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
-    res.redirect('../class/');
-    // TODO: Implement Marketing Copy On This Page
-    // res.render('onboarding/welcome');
+	console.log('[INFO] Recieved GET request at ', req.url);
+	res.redirect('../class/');
+	// TODO: Implement Marketing Copy On This Page
+	// res.render('onboarding/welcome');
 };
 
 exports.onboarding.class = {};
 
 exports.onboarding.class.get = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
-    res.render('onboarding/class');
+	console.log('[INFO] Recieved GET request at ', req.url);
+	res.render('onboarding/class');
 };
 
 exports.onboarding.class.post = function(req, res){
-    console.log('[INFO] Recieved POST request at ', req.url);
+	console.log('[INFO] Recieved POST request at ', req.url);
 
-    // Verify POST Information
-    var databaseStructure = {};
-    databaseStructure.classes = {};
+	// Verify POST Information
+	var databaseStructure = {};
+	databaseStructure.classes = {};
 	var error_res = [];
 
 	/* Course Number */
@@ -143,32 +143,32 @@ exports.onboarding.class.post = function(req, res){
 		dbPost[courseNumber] = {2017: databaseStructure};
 		db.ref("courses/MIT").update(dbPost);
 
-	    res.redirect('../' + databaseStructure.number + '/roster/');
+		res.redirect('../' + databaseStructure.number + '/roster/');
 	}else{
 		console.log(error_res);
-	    res.render('onboarding/class');
+		res.render('onboarding/class');
 	}
 };
 
 exports.onboarding.roster = {}
 exports.onboarding.roster.get = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
-    res.render('onboarding/roster');
+	console.log('[INFO] Recieved GET request at ', req.url);
+	res.render('onboarding/roster');
 };
 
 exports.onboarding.roster.post = function(req, res){
-    console.log('[INFO] Recieved POST request at ', req.url);
+	console.log('[INFO] Recieved POST request at ', req.url);
 
-    var bodyClean = validate.roster(req.body);
+	var bodyClean = validate.roster(req.body);
 
-    if (bodyClean.errors.length == 0){
-    	var course = req.params.class.replace('.','');
+	if (bodyClean.errors.length == 0){
+		var course = req.params.class.replace('.','');
 		db.ref("courses/MIT/"+course+"/2017/").update({roster: {students:bodyClean.data, total: bodyClean.data.length}});
 
-	    res.redirect('../faces/');
-    }else{
-	    res.render('onboarding/roster');
-    }
+		res.redirect('../faces/');
+	}else{
+		res.render('onboarding/roster');
+	}
 };
 
 exports.onboarding.faces = function(req, res){
@@ -176,28 +176,28 @@ exports.onboarding.faces = function(req, res){
 	var courseNumber = req.params.class.replace('.','');
 
 	db.ref("courses/MIT/"+courseNumber+"/2017/roster/students").once('value').then(function(snapshot) {
-	    res.render('onboarding/faces', {students: snapshot.val(), number: courseNumber});
+		res.render('onboarding/faces', {students: snapshot.val(), number: courseNumber});
 	});
 };
 
 exports.onboarding.finished = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
+	console.log('[INFO] Recieved GET request at ', req.url);
 	var courseNumber = req.params.class.replace('.','');
 
 	collection = 'MIT-' + req.params.class + '-2017';
 
-    // Create Amazon AWS Collection
+	// Create Amazon AWS Collection
 	var rekognition = new AWS.Rekognition();
 
-    rekognition.createCollection( { "CollectionId": collection }).promise().then(function (data){
-    	console.log(data);
-    }, function (error){
-    	if (error.code != 'ResourceAlreadyExistsException'){
-	    	console.log(error);
-    	}
-    });
+	rekognition.createCollection( { "CollectionId": collection }).promise().then(function (data){
+		console.log(data);
+	}, function (error){
+		if (error.code != 'ResourceAlreadyExistsException'){
+			console.log(error);
+		}
+	});
 
-    // Train Image Set
+	// Train Image Set
 	db.ref("courses/MIT/"+courseNumber+"/2017/roster/students").once('value').then(function(snapshot) {
 		faces = snapshot.val().map(function (face){
 			photo = parse(face.photo, true);
@@ -216,20 +216,20 @@ exports.onboarding.finished = function(req, res){
 
 		faces.forEach(function (face){
 			rekognition.indexFaces(face).promise().catch(function (error){
-		    	console.log(error);
-		    });
+				console.log(error);
+			});
 		});
 	});
 
-    res.redirect('/classes/');
-    // TODO: Implement Marketing Copy On This Page
-    // res.render('onboarding/finished');
+	res.redirect('/classes/');
+	// TODO: Implement Marketing Copy On This Page
+	// res.render('onboarding/finished');
 };
 
 exports.dashboard = {};
 
 exports.dashboard.home = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
+	console.log('[INFO] Recieved GET request at ', req.url);
 
 	db.ref("courses/MIT/").once('value').then(function(snapshot) {
 		var data = snapshot.val();
@@ -240,15 +240,15 @@ exports.dashboard.home = function(req, res){
 			}
 		}
 
-	    res.render('dashboard/home', {classes: body});
+		res.render('dashboard/home', {classes: body});
 	});
 }
 
 exports.dashboard.class = function(req, res){
-    console.log('[INFO] Recieved GET request at ', req.url);
+	console.log('[INFO] Recieved GET request at ', req.url);
 
 	var course = req.params.class.replace('.','');
 	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
-	    res.render('dashboard/class', snapshot.val());
+		res.render('dashboard/class', snapshot.val());
 	});
 }
