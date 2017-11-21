@@ -132,9 +132,9 @@ exports.onboarding.class.post = function(req, res){
 		var dbPost = {};
 		var courseNumber = databaseStructure.number.replace('.','');
 		dbPost[courseNumber] = {2017: databaseStructure};
-		db.ref("courses/MIT").set(dbPost);
+		db.ref("courses/MIT").update(dbPost);
 
-	    res.redirect('../' + courseNumber + '/roster/');
+	    res.redirect('../' + databaseStructure.number + '/roster/');
 	}else{
 		console.log(error_res);
 	    res.render('onboarding/class');
@@ -167,14 +167,43 @@ exports.onboarding.faces = function(req, res){
 	var courseNumber = req.params.class.replace('.','');
 
 	db.ref("courses/MIT/"+courseNumber+"/2017/roster/students").once('value').then(function(snapshot) {
-	    res.render('onboarding/faces', {students: snapshot.val()});
+	    res.render('onboarding/faces', {students: snapshot.val(), number: courseNumber});
 	});
 };
 
 exports.onboarding.finished = function(req, res){
     console.log('[INFO] Recieved GET request at ', req.url);
 
-    res.redirect('/');
+    res.redirect('/classes/');
     // TODO: Implement Marketing Copy On This Page
     // res.render('onboarding/finished');
 };
+
+exports.dashboard = {};
+
+exports.dashboard.home = function(req, res){
+    console.log('[INFO] Recieved GET request at ', req.url);
+
+	db.ref("courses/MIT/").once('value').then(function(snapshot) {
+		var data = snapshot.val();
+		var body = [];
+		for (var key in data) {
+			if (data.hasOwnProperty(key)) {
+				body.push(data[key][2017]);
+			}
+		}
+
+	    res.render('dashboard/home', {classes: body});
+	});
+
+}
+
+exports.dashboard.class = function(req, res){
+    console.log('[INFO] Recieved GET request at ', req.url);
+
+	var course = req.params.class.replace('.','');
+	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
+	    res.render('dashboard/class', snapshot.val());
+	});
+
+}

@@ -1,0 +1,13 @@
+<h1>Classes</h1>
+
+<div class="list-group">
+{{#each classes}}
+	<a href="/classes/{{number}}/" class="list-group-item list-group-item-action flex-column align-items-start">
+		<div class="d-flex w-100 justify-content-between">
+			<h5 class="mb-1">{{number}} {{name}}</h5>
+			<small>MIT</small>
+		</div>
+		<small>{{#if roster.total}}{{roster.total}} Students{{else}}<span class="text-danger">This course has no students yet.</span>{{/if}} | {{classes.total}} Classes</small>
+	</a>
+{{/each}}
+</div>
