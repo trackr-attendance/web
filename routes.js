@@ -167,7 +167,7 @@ exports.onboarding.faces = function(req, res){
 	var courseNumber = req.params.class.replace('.','');
 
 	db.ref("courses/MIT/"+courseNumber+"/2017/roster/students").once('value').then(function(snapshot) {
-	    res.render('onboarding/faces', {students: snapshot.val()});
+	    res.render('onboarding/faces', {students: snapshot.val(), number: courseNumber});
 	});
 };
 
@@ -194,6 +194,16 @@ exports.dashboard.home = function(req, res){
 		}
 
 	    res.render('dashboard/home', {classes: body});
+	});
+
+}
+
+exports.dashboard.class = function(req, res){
+    console.log('[INFO] Recieved GET request at ', req.url);
+
+	var course = req.params.class.replace('.','');
+	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
+	    res.render('dashboard/class', snapshot.val());
 	});
 
 }

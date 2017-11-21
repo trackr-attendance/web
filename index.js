@@ -30,7 +30,7 @@ app.get('/onboarding/:class([\\d\\w]+\.\\d+\\w+)/finished/', routes.onboarding.f
 
 /* Dashboard Routes */
 app.get('/classes/', routes.dashboard.home);
-app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/', routes.notImplementedResponse);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/', routes.dashboard.class);
 app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/edit/', routes.notImplementedResponse);
 app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/roster/', routes.notImplementedResponse);
 app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/class/:date(\\d{4}-\\d{2}-\\d{2})/', routes.notImplementedResponse);
