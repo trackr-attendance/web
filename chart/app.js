@@ -53,7 +53,7 @@ function makeChart (data, markers) {
       chartWidth  = svgWidth  - margin.left - margin.right,
       chartHeight = svgHeight - margin.top  - margin.bottom;
 
-  var x = d3.time.scale().range([0, chartWidth])
+  var x = d3.scale.linear().range([0, chartWidth])
             .domain(d3.extent(data, function (d) { return d.date; })),
       y = d3.scale.linear().range([chartHeight, 0])
             .domain([0, d3.max(data, function (d) { return d.pct50; })]);
