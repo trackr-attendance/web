@@ -1,24 +1,20 @@
-var parse = require('url-parse');
-var merge = require('deepmerge')
+var AWS = require('aws-sdk');
+var admin = require("firebase-admin");
 var deepcopy = require("deepcopy");
-
+var merge = require('deepmerge')
+var parse = require('url-parse');
 var validate = require("./datavalidation");
 
 // AWS Configuration
-var AWS = require('aws-sdk');
 AWS.config.loadFromPath('./awsConfig.json');
 
-
 // Firebase Configuration
-var admin = require("firebase-admin");
 admin.initializeApp({
   credential: admin.credential.cert(require("./trackrAttendanceFirebaseConfig.json")),
   databaseURL: "https://trackr-attendance.firebaseio.com"
 });
 
-auth = admin.auth();
 db = admin.database();
-
 
 exports.notImplementedResponse = function(req, res){
 	console.log('[INFO] Recieved GET request at ', req.url);
