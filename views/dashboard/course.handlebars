@@ -1,0 +1,26 @@
+<h1>{{number}} {{name}}</h1>
+
+<div class="row">
+	<div class="col-3">
+		<div class="list-group">
+			<a href="./" class="list-group-item list-group-item-action ">Dashboard</a>
+			<a href="./roster/" class="list-group-item list-group-item-action active">Roster</a>
+			<a href="./class/" class="list-group-item list-group-item-action">Classes</a>
+			<a href="./edit/" class="list-group-item list-group-item-action">Settings</a>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card-columns">
+			{{#each roster.students}}
+			<div class="card">
+				<img class="card-img-top" src="{{photo}}" alt="ID Card Photo of {{first}} {{last}}">
+				<div class="card-body">
+					<h5 class="card-title">{{first}} {{last}}</h5>
+					<small class="text-muted">{{username}}@mit.edu</small>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	</div>
+</div>
+

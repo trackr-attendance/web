@@ -2,13 +2,16 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 var bodyParser = require('body-parser')
 var routes = require('./routes');
-var frontendUpload = require('./frontendS3')
+var frontendUpload = require('./frontendS3');
+var HandlebarsIntl = require('handlebars-intl');
 
 var app = express();
 
 /* Set Up Templating Engine */
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+var hbs = exphbs.create({defaultLayout: 'main'});
+app.engine(hbs.extname, hbs.engine);
+app.set('view engine', hbs.extname);
+HandlebarsIntl.registerWith(hbs.handlebars);
 
 /* Set Up POST Body Parser */
 app.use( bodyParser.json() ); // to support JSON-encoded bodies
@@ -20,6 +23,7 @@ app.use('/static', express.static('public'));
 /* Routing */
 app.get('/', routes.home);
 app.post('/admin/S3/sign/', frontendUpload.signS3);
+app.get('/admin/:class([\\d\\w]+\.\\d+\\w+)/:date(\\d{4}-\\d{2}-\\d{2})/', routes.admin.engagement);
 
 /* On Boarding Workflow */
 app.get('/onboarding/welcome/', routes.onboarding.welcome);
@@ -30,10 +34,11 @@ app.get('/onboarding/:class([\\d\\w]+\.\\d+\\w+)/finished/', routes.onboarding.f
 
 /* Dashboard Routes */
 app.get('/classes/', routes.dashboard.home);
-app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/', routes.dashboard.class);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/', routes.dashboard.course);
 app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/edit/', routes.notImplementedResponse);
 app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/roster/', routes.notImplementedResponse);
-app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/class/:date(\\d{4}-\\d{2}-\\d{2})/', routes.notImplementedResponse);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/class/', routes.dashboard.classes);
+app.get('/classes/:class([\\d\\w]+\.\\d+\\w+)/class/:date(\\d{4}-\\d{2}-\\d{2})/', routes.dashboard.class);
 
 var port = 8080;
 app.listen(port, function(){

@@ -20,9 +20,12 @@
   "dependencies": {
     "aws-sdk": "^2.154.0",
     "body-parser": "^1.18.2",
+    "deepcopy": "^0.6.3",
+    "deepmerge": "^2.0.1",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "firebase-admin": "^5.5.0",
+    "handlebars-intl": "^1.1.2",
     "s3-policy": "^0.2.0",
     "url-parse": "^1.2.0",
     "uuid": "^3.1.0"

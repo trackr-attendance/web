@@ -1,4 +1,3 @@
-
 function addAxesAndLegend (svg, xAxis, yAxis, margin, chartWidth, chartHeight) {
 
   var axes = svg.append('g')
@@ -47,7 +46,7 @@ function startTransitions (svg, chartWidth, chartHeight, rectClip, markers, x) {
 }
 
 function makeChart (data, markers) {
-  var svgWidth  = 960,
+  var svgWidth  = 800,
       svgHeight = 500,
       margin = { top: 20, right: 20, bottom: 40, left: 40 },
       chartWidth  = svgWidth  - margin.left - margin.right,
@@ -63,7 +62,7 @@ function makeChart (data, markers) {
       yAxis = d3.svg.axis().scale(y).orient('left')
                 .innerTickSize(-chartWidth).outerTickSize(0).tickPadding(10);
 
-  var svg = d3.select('body').append('svg')
+  var svg = d3.select('#engagement-chart').append('svg')
     .attr('width',  svgWidth)
     .attr('height', svgHeight)
     .append('g')
@@ -81,34 +80,35 @@ function makeChart (data, markers) {
   startTransitions(svg, chartWidth, chartHeight, rectClip, markers, x);
 }
 
-// var parseDate  = d3.time.format('%Y-%m-%d').parse;
-d3.json('test.json', function (error, rawData) {
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  var data = rawData.map(function (d) {
-    return {
-      date:  d.date,
-      pct50: d.pct50
-    };
-  });
-
-  d3.json('markers.json', function (error, markerData) {
+$(document).ready(function(){
+  d3.json($("#engagementDataset").val(), function (error, rawData) {
     if (error) {
       console.error(error);
       return;
     }
 
-    var markers = markerData.map(function (marker) {
+    var data = rawData.map(function (d) {
       return {
-        date: marker.date,
-        type: marker.type,
-        version: marker.version
+        date:  d.date,
+        pct50: d.pct50
       };
     });
 
-    makeChart(data, markers);
+    d3.json('/static/js/dashboard/engagement.markers.json', function (error, markerData) {
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      var markers = markerData.map(function (marker) {
+        return {
+          date: marker.date,
+          type: marker.type,
+          version: marker.version
+        };
+      });
+
+      makeChart(data, markers);
+    });
   });
 });

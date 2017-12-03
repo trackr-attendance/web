@@ -3,24 +3,41 @@
 <div class="row">
 	<div class="col-3">
 		<div class="list-group">
-			<a href="./" class="list-group-item list-group-item-action ">Dashboard</a>
-			<a href="./roster/" class="list-group-item list-group-item-action active">Roster</a>
-			<a href="#" class="list-group-item list-group-item-action disabled">Classes</a>
-			<a href="./edit/" class="list-group-item list-group-item-action">Settings</a>
+			<a href="../" class="list-group-item list-group-item-action ">Dashboard</a>
+			<a href="../roster/" class="list-group-item list-group-item-action">Roster</a>
+			<a href="../class/" class="list-group-item list-group-item-action active">Classes</a>
+			<a href="../edit/" class="list-group-item list-group-item-action">Settings</a>
 		</div>
 	</div>
 	<div class="col">
-		<div class="card-columns">
-			{{#each roster.students}}
-			<div class="card">
-				<img class="card-img-top" src="{{photo}}" alt="ID Card Photo of {{first}} {{last}}">
-				<div class="card-body">
-					<h5 class="card-title">{{first}} {{last}}</h5>
-					<small class="text-muted">{{username}}@mit.edu</small>
-				</div>
-			</div>
+		<h2 class="text-secondary">{{formatDate date day="numeric" month="long" year="numeric"}}</h2>
+
+		<h5>Average Student Engagement</h5>
+		<div id="engagement-chart"></div>
+
+		<h5>Student Attendance</h5>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Username</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{#each present}}
+				<tr class="{{#if present}}table-success{{else}}table-danger{{/if}}">
+					<th scope="row">{{id}}</th>
+					<td>{{first}}</td>
+					<td>{{last}}</td>
+					<td>{{username}}@mit.edu</td>
+				</tr>
 			{{/each}}
-		</div>
+			</tbody>
+		</table>
 	</div>
 </div>
 
+<input id="engagementDataset" type="hidden" value="/admin/{{class}}/{{formatDate date year="numeric"}}-{{formatDate date month="2-digit"}}-{{formatDate date day="2-digit"}}/">

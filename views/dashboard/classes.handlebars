@@ -1,0 +1,24 @@
+<h1>{{number}} {{name}}</h1>
+<div class="row">
+	<div class="col-3">
+		<div class="list-group">
+			<a href="./" class="list-group-item list-group-item-action">Dashboard</a>
+			<a href="./roster/" class="list-group-item list-group-item-action">Roster</a>
+			<a href="#" class="list-group-item list-group-item-action active">Classes</a>
+			<a href="./edit/" class="list-group-item list-group-item-action">Settings</a>
+		</div>
+	</div>
+	<div class="col">
+		<div class="list-group">
+		{{#each sessions}}
+			<a href="{{#if attendance}}./{{uri}}{{/if}}" class="list-group-item list-group-item-action flex-column align-items-start {{#unless attendance}}disabled{{/unless}}">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">{{formatDate date day="numeric" month="long" year="numeric"}}</h5>
+					<small>MIT {{../number}}</small>
+				</div>
+				<small>{{#if attendance}}{{students}} Students |{{else}}{{#if past}}<span class="text-danger">No attendance records were created for this class.</span> |{{/if}}{{/if}} {{formatRelative date}} </small>
+			</a>
+		{{/each}}
+		</div>
+	</div>
+</div>

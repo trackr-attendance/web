@@ -1,4 +1,6 @@
 var parse = require('url-parse');
+var merge = require('deepmerge')
+var deepcopy = require("deepcopy");
 
 var validate = require("./datavalidation");
 
@@ -244,11 +246,75 @@ exports.dashboard.home = function(req, res){
 	});
 }
 
-exports.dashboard.class = function(req, res){
+exports.dashboard.course = function(req, res){
 	console.log('[INFO] Recieved GET request at ', req.url);
 
 	var course = req.params.class.replace('.','');
 	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
-		res.render('dashboard/class', snapshot.val());
+		res.render('dashboard/course', snapshot.val());
 	});
+}
+
+exports.dashboard.classes = function(req, res){
+	console.log('[INFO] Recieved GET request at ', req.url);
+
+	var course = req.params.class.replace('.','');
+	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
+
+		var data = snapshot.val();
+		var classes = deepcopy(data.classes.dates);
+		var today = new Date();
+		// Revive Dates
+		var newClasses = [];
+		classes.forEach(function (date){
+			var date = new Date(date);
+			var dateURI = date.toISOString().slice(0,10);
+			var dateKey = dateURI.replace(/-/g,'');
+			var attendance = dateKey in data.attendance;
+
+			newClasses.push({
+				date: date,
+				past: (date < today),
+				attendance: attendance,
+				students: attendance ? data.attendance[dateKey].filter(Number).length : 0,
+				key: dateKey,
+				uri: dateURI
+			});
+		});
+
+		res.render('dashboard/classes', merge.all([data, {sessions: newClasses},req.params]));
+	});
+}
+
+exports.dashboard.class = function(req, res){
+	console.log('[INFO] Recieved GET request at ', req.url);
+
+	var course = req.params.class.replace('.','');
+	var date = req.params.date.split('-').join('');
+
+	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
+		var data = snapshot.val()
+
+		var attendance = deepcopy(data.roster.students);
+		if ((date in data.attendance) || (typeof data.attendance[date] !== 'undefined')){
+			// Attendance Records Exist
+			attendance.map(function (student) {
+				student.present = (data.attendance[date].includes(student.id));
+				return student;
+			})
+		}
+
+		req.params.date = new Date(req.params.date + " EST");
+		res.render('dashboard/class', merge.all([snapshot.val(), {present: attendance}, req.params]));
+	});
+}
+
+exports.admin = {};
+
+exports.admin.engagement = function(req, res){
+	console.log('[INFO] Recieved GET request at ', req.url);
+
+	var course = req.params.class.replace('.','');
+
+	res.sendfile('1125_2017-11-14.json');
 }
