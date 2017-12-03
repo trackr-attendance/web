@@ -22,8 +22,8 @@ function addAxesAndLegend (svg, xAxis, yAxis, margin, chartWidth, chartHeight) {
 function drawPaths (svg, data, x, y) {
   var medianLine = d3.svg.line()
     .interpolate('basis')
-    .x(function (d) { return x(d.date); })
-    .y(function (d) { return y(d.pct50); });
+    .x(function (d) {return x(d.time)})
+    .y(function (d) {return y(d.score)});
 
   svg.datum(data);
 
@@ -33,19 +33,7 @@ function drawPaths (svg, data, x, y) {
     .attr('clip-path', 'url(#rect-clip)');
 }
 
-function startTransitions (svg, chartWidth, chartHeight, rectClip, markers, x) {
-  rectClip.transition()
-    .duration(1000*markers.length)
-    .attr('width', chartWidth);
-
-  markers.forEach(function (marker, i) {
-    setTimeout(function () {
-      addMarker(marker, svg, chartHeight, x);
-    }, 1000 + 500*i);
-  });
-}
-
-function makeChart (data, markers) {
+function makeChart (data) {
   var svgWidth  = 800,
       svgHeight = 500,
       margin = { top: 20, right: 20, bottom: 40, left: 40 },
@@ -53,9 +41,9 @@ function makeChart (data, markers) {
       chartHeight = svgHeight - margin.top  - margin.bottom;
 
   var x = d3.scale.linear().range([0, chartWidth])
-            .domain(d3.extent(data, function (d) { return d.date; })),
+            .domain(d3.extent(data, function (d) { return d.time; })),
       y = d3.scale.linear().range([chartHeight, 0])
-            .domain([0, d3.max(data, function (d) { return d.pct50; })]);
+            .domain([0, d3.max(data, function (d) { return d.score; })]);
 
   var xAxis = d3.svg.axis().scale(x).orient('bottom')
                 .innerTickSize(-chartHeight).outerTickSize(0).tickPadding(10),
@@ -77,7 +65,9 @@ function makeChart (data, markers) {
 
   addAxesAndLegend(svg, xAxis, yAxis, margin, chartWidth, chartHeight);
   drawPaths(svg, data, x, y);
-  startTransitions(svg, chartWidth, chartHeight, rectClip, markers, x);
+  rectClip.transition()
+    .duration(4000)
+    .attr('width', chartWidth);
 }
 
 $(document).ready(function(){
@@ -86,29 +76,6 @@ $(document).ready(function(){
       console.error(error);
       return;
     }
-
-    var data = rawData.map(function (d) {
-      return {
-        date:  d.date,
-        pct50: d.pct50
-      };
-    });
-
-    d3.json('/static/js/dashboard/engagement.markers.json', function (error, markerData) {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      var markers = markerData.map(function (marker) {
-        return {
-          date: marker.date,
-          type: marker.type,
-          version: marker.version
-        };
-      });
-
-      makeChart(data, markers);
-    });
+    makeChart(rawData);
   });
 });

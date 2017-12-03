@@ -315,6 +315,15 @@ exports.admin.engagement = function(req, res){
 	console.log('[INFO] Recieved GET request at ', req.url);
 
 	var course = req.params.class.replace('.','');
+	var date = req.params.date.split('-').join('');
 
-	res.sendfile('1125_2017-11-14.json');
+	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
+		var data = snapshot.val()
+
+		if ((date in data.engagement) || (typeof data.engagement[date] !== 'undefined')){
+			res.send(data.engagement[date]);		
+		}else{
+			res.status(404).send({"status code": 404, "status string": "404 Not Found"});
+		}
+	});
 }
