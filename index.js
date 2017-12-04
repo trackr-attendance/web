@@ -1,9 +1,11 @@
+var cookieParser = require('cookie-parser');
 var express = require("express");
 var exphbs = require("express-handlebars");
 var bodyParser = require('body-parser')
 var routes = require('./routes');
 var frontendUpload = require('./frontendS3');
 var HandlebarsIntl = require('handlebars-intl');
+var trackrCookies = require('./trackrSessionConfig.json');
 
 var app = express();
 
@@ -17,11 +19,26 @@ HandlebarsIntl.registerWith(hbs.handlebars);
 app.use( bodyParser.json() ); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true})); // to support URL-encoded bodies
 
+/* Ser Up COOKIE Body Parser */
+app.use(cookieParser());
+
 /* Set Up Static Repository */
 app.use('/static', express.static('public'));
 
 /* Routing */
 app.get('/', routes.home);
+
+/* Middleware Routing */
+app.use(function(req, res, next) {
+	if (JSON.stringify(req.cookies) !== JSON.stringify(trackrCookies)){
+		console.log('Missing Validation Cookie: Intercepted Request', req.cookies);
+		routes.notImplementedResponse(req, res);
+	}else{
+		next();
+	}
+});
+
+/* Admin */
 app.post('/admin/S3/sign/', frontendUpload.signS3);
 app.get('/admin/:class([\\d\\w]+\.\\d+\\w+)/:date(\\d{4}-\\d{2}-\\d{2})/', routes.admin.engagement);
 
