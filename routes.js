@@ -12,7 +12,7 @@ AWS.config.loadFromPath('./awsConfig.json');
 // Firebase Configuration
 var admin = require("firebase-admin");
 admin.initializeApp({
-  credential: admin.credential.cert(require("./trackr-attendance-d70b149c2ccc.json")),
+  credential: admin.credential.cert(require("./trackrAttendanceFirebaseConfig.json")),
   databaseURL: "https://trackr-attendance.firebaseio.com"
 });
 
