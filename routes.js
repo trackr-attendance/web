@@ -291,22 +291,51 @@ exports.dashboard.class = function(req, res){
 	console.log('[INFO] Recieved GET request at ', req.url);
 
 	var course = req.params.class.replace('.','');
-	var date = req.params.date.split('-').join('');
+	var courseTag = "MIT-"+req.params.class+"-2017";
+	var date = new Date(req.params.date + " EST").setHours(0, 0, 0, 0);
 
-	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
-		var data = snapshot.val()
+	rp({
+		uri: 'http://blockchain.trackrattendance.com/blocks',
+		json: true
+	}).then(function (blockchain) {
+		attendance = null;
+		// Rip Through Blockchain
+		blockchain.some(function (block){
+			var data = JSON.parse(block.data);
+			// Check if Engagement
+			if (data.type == 1){
+				// Check Course
+				if (data.class.trim() == courseTag){
+					var blockDate = new Date(data.date).setHours(0, 0, 0, 0);
+					if ((date - blockDate) == 0){
+						attendance = data.attendance;
+					}
+					return true;
+				}
+			}
+		});
+		return attendance;
+	}).then(function (attendance){
+		// Attendance Records Exist
+		if (attendance != null){
+			return db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
+				var data = snapshot.val()
 
-		var attendance = deepcopy(data.roster.students);
-		if ((date in data.attendance) || (typeof data.attendance[date] !== 'undefined')){
-			// Attendance Records Exist
-			attendance.map(function (student) {
-				student.present = (data.attendance[date].includes(student.id));
-				return student;
-			})
+				var roster = deepcopy(data.roster.students);
+				roster.map(function (student) {
+					student.present = (attendance.includes(student.id));
+					return student;
+				});
+
+				req.params.date = date;
+				// req.params.date = new Date(req.params.date + " EST");
+				res.render('dashboard/class', merge.all([snapshot.val(), {present: roster}, req.params]));
+			});
+		}else{
+			res.status(404).send({"status code": 404, "status string": "404 Not Found", "message": "could not find attendance records on the blockchain."});
 		}
-
-		req.params.date = new Date(req.params.date + " EST");
-		res.render('dashboard/class', merge.all([snapshot.val(), {present: attendance}, req.params]));
+	}).catch(function (err) {
+		res.status(500).send({"status code": 500, "status string": "500 Internal Server Error", "message": err});
 	});
 }
 
@@ -339,7 +368,7 @@ exports.admin.engagement = function(req, res){
 			}
 		});
 		return engagement;
-	}).then(function (data){
+	}).then(function (engagement){
 		if (engagement != null){
 			res.send(engagement);
 		}else{
