@@ -1,4 +1,4 @@
-apt-get install git
+sudo apt-get install git
 git config --global user.name "Trackr Production"
 git config --global user.email "production@trackrattendance.com"
 sudo apt-get update
@@ -16,8 +16,8 @@ sudo add-apt-repository \
    stable"
 sudo apt-get update
 sudo apt-get install docker-ce
-curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 sudo usermod -aG docker ${USER}
 // log out & back in for changes to take into effect
 git clone https://github.com/trackr-attendance/web.git
