@@ -1,6 +1,7 @@
 var parse = require('url-parse');
 var merge = require('deepmerge')
 var deepcopy = require("deepcopy");
+var rp = require('request-promise');
 
 var validate = require("./datavalidation");
 
@@ -314,16 +315,37 @@ exports.admin = {};
 exports.admin.engagement = function(req, res){
 	console.log('[INFO] Recieved GET request at ', req.url);
 
-	var course = req.params.class.replace('.','');
-	var date = req.params.date.split('-').join('');
+	var course = "MIT-"+req.params.class+"-2017";
+	var date = new Date(req.params.date + " EST").setHours(0, 0, 0, 0);
 
-	db.ref("courses/MIT/"+course+"/2017/").once('value').then(function(snapshot) {
-		var data = snapshot.val()
-
-		if ((date in data.engagement) || (typeof data.engagement[date] !== 'undefined')){
-			res.send(data.engagement[date]);		
+	rp({
+		uri: 'http://blockchain.trackrattendance.com/blocks',
+		json: true
+	}).then(function (blockchain) {
+		engagement = null;
+		// Rip Through Blockchain
+		blockchain.some(function (block){
+			var data = JSON.parse(block.data);
+			// Check if Engagement
+			if (data.type == 2){
+				// Check Course
+				if (data.class.trim() == course){
+					var blockDate = new Date(data.date).setHours(0, 0, 0, 0);
+					if ((date - blockDate) == 0){
+						engagement = data.engagement;
+					}
+					return true;
+				}
+			}
+		});
+		return engagement;
+	}).then(function (data){
+		if (engagement != null){
+			res.send(engagement);
 		}else{
 			res.status(404).send({"status code": 404, "status string": "404 Not Found"});
 		}
+	}).catch(function (err) {
+		res.status(500).send({"status code": 500, "status string": "500 Internal Server Error", "message": err});
 	});
 }
